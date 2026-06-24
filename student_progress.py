@@ -5,6 +5,8 @@ import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder, StandardScaler
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.svm import SVC
 from sklearn.metrics import accuracy_score, classification_report
 
 data = pd.read_csv('student_data.csv')
@@ -23,17 +25,34 @@ scaler = StandardScaler()
 X_train = scaler.fit_transform(X_train)
 X_test = scaler.transform(X_test)
 
-model = RandomForestClassifier(n_estimators=100, random_state=42)
-model.fit(X_train, y_train)
+# Random Forest
+rf_model = RandomForestClassifier(n_estimators=100, random_state=42)
+rf_model.fit(X_train, y_train)
+rf_pred = rf_model.predict(X_test)
+rf_acc = accuracy_score(y_test, rf_pred)
 
-y_pred = model.predict(X_test)
-accuracy = accuracy_score(y_test, y_pred)
-print(" Model Accuracy:", accuracy)
-print("\n Classification Report:\n", classification_report(y_test, y_pred))
+# KNN
+knn_model = KNeighborsClassifier(n_neighbors=5)
+knn_model.fit(X_train, y_train)
+knn_pred = knn_model.predict(X_test)
+knn_acc = accuracy_score(y_test, knn_pred)
+
+# SVM
+svm_model = SVC(kernel='rbf', random_state=42)
+svm_model.fit(X_train, y_train)
+svm_pred = svm_model.predict(X_test)
+svm_acc = accuracy_score(y_test, svm_pred)
+
+print("Random Forest Accuracy:", rf_acc)
+print("KNN Accuracy:", knn_acc)
+print("SVM Accuracy:", svm_acc)
+
+
+print("\n Classification Report:\n", classification_report(y_test, rf_pred))
 
 plt.figure(figsize=(10, 6))
-sns.barplot(x=model.feature_importances_, y=X.columns)
-plt.title('Feature Importance')
+sns.barplot(x=rf_model.feature_importances_, y=X.columns)
+plt.title('Random Forest Feature Importance')
 plt.xlabel('Importance')
 plt.ylabel('Features')
 plt.show()
