@@ -122,4 +122,5 @@ The program provides:
 
 **Ritik Kumar**
 
-B.Tech Student | Machine Learning Enthusiast | Aspiring Software Engineer
+B.Tech Student | Machine Learning Enthusiast | Aspiring AI Engineer
+
